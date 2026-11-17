@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+@theme {
+  /* Swiss Minimalist Color Tokens */
+  --color-swiss-black: #000000;
+  --color-swiss-white: #ffffff;
+  --color-swiss-beige: #f5f1e8;
+  --color-swiss-grey: #808080;
+  --color-swiss-taupe: #b38b6d;
+
+  /* Typography Families */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
+
+  /* Spacing Rhythm */
+  --spacing-swiss-sm: 2rem;
+  --spacing-swiss-md: 4rem;
+  --spacing-swiss-lg: 8rem;
+
+  /* Sharp Geometric Radii */
+  --radius-swiss-none: 0px;
+  --radius-swiss-sm: 2px;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--color-swiss-white);
+    color: var(--color-swiss-black);
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+/* 12-Column Swiss Grid & Containment */
+.swiss-container {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+.swiss-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.section-gap {
+  padding-block: clamp(4rem, 8vw, 8rem);
+}
+
+/* Typography Scale */
+.hero-title {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+}
+
+.label-caps {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
