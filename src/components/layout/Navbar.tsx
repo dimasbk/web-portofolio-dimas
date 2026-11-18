@@ -40,12 +40,32 @@ export function Navbar() {
     return () => window.removeEventListener("hashchange", syncHash);
   }, [pathname]);
 
-  const handleNavClick = (href: string) => {
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
     setMobileOpen(false);
     if (href === "/") {
       setActiveHash("");
+      if (pathname === "/") {
+        e.preventDefault();
+        window.history.replaceState(null, "", window.location.pathname);
+        window.scrollTo({
+          top: 0,
+          behavior: shouldReduceMotion ? "auto" : "smooth",
+        });
+      }
     } else if (href.startsWith("/#")) {
-      setActiveHash(href.slice(1));
+      const hash = href.slice(1);
+      const targetId = hash.slice(1);
+      setActiveHash(hash);
+      if (pathname === "/") {
+        e.preventDefault();
+        window.history.replaceState(null, "", `${window.location.pathname}${hash}`);
+        document.getElementById(targetId)?.scrollIntoView({
+          behavior: shouldReduceMotion ? "auto" : "smooth",
+        });
+      }
     }
   };
 
@@ -63,7 +83,7 @@ export function Navbar() {
           <Link
             href="/"
             className="group flex items-center gap-3 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-swiss-taupe"
-            onClick={() => handleNavClick("/")}
+            onClick={(e) => handleNavClick(e, "/")}
           >
             <span className="flex h-8 w-8 items-center justify-center border border-swiss-black bg-swiss-black text-swiss-white transition-colors duration-200 group-hover:bg-swiss-taupe group-hover:border-swiss-taupe">
               <Terminal className="h-4 w-4" strokeWidth={1.75} />
@@ -89,7 +109,7 @@ export function Navbar() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  onClick={() => handleNavClick(item.href)}
+                  onClick={(e) => handleNavClick(e, item.href)}
                   className={cn(
                     "relative flex items-center gap-1.5 px-3 py-2 text-sm transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-swiss-taupe",
                     active
@@ -161,7 +181,7 @@ export function Navbar() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    onClick={() => handleNavClick(item.href)}
+                    onClick={(e) => handleNavClick(e, item.href)}
                     className={cn(
                       "flex items-center justify-between py-3.5 text-sm transition-colors duration-200",
                       active
